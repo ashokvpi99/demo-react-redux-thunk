@@ -2,7 +2,6 @@ import { SAVE_POST, GET_ALL_POST, DELETE_POST } from '../actionsTypes/postAction
 
 const initState = {
     posts: [],
-    error:'',
 };
 
 export default (state = initState, action) => {
@@ -15,12 +14,10 @@ export default (state = initState, action) => {
         case SAVE_POST:
             return {
             ...state,
-            error: action.error ? action.error: ''
             };
         case DELETE_POST:
             return {
                 ...state,
-                error: action.error ? action.error: ''
             };
         default:
             return state;

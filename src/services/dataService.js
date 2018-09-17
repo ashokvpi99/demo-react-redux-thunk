@@ -1,7 +1,12 @@
 const dataService = {
     get: (url) => {
+        const options = {};
+        options.headers = {
+            "Content-type": "application/json; charset=UTF-8",
+            "Access-Control-Allow-Origin": '*'
+        };
         return new Promise((resolve, reject) => {
-            fetch(url).then(res => res.json()).then((data) => resolve(data)).catch((err) => reject(err));
+            fetch(url, options).then(res => res.json()).then((data) => resolve(data)).catch((err) => reject(err));
         })
     },
 
@@ -10,7 +15,8 @@ const dataService = {
         options.body = data;
         options.method = 'POST';
         options.headers = {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Access-Control-Allow-Origin": '*'
         };
         options.body = options.body ? JSON.stringify(options.body) : {};
         return new Promise((resolve, reject) => {
@@ -23,7 +29,8 @@ const dataService = {
         options.body = data;
         options.method = 'PUT';
         options.headers = {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Access-Control-Allow-Origin": '*'
         };
         options.body = options.body ? JSON.stringify(options.body) : {};
         return new Promise((resolve, reject) => {
@@ -34,6 +41,9 @@ const dataService = {
     delete: (url) => {
         const options = {};
         options.method = 'DELETE';
+        options.headers = {
+            "Access-Control-Allow-Origin": '*'
+        };
         return new Promise((resolve, reject) => {
             fetch(url, options).then(res => res.json()).then((data) => resolve(data)).catch((err) => reject(err));
         })

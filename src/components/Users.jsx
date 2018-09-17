@@ -45,17 +45,26 @@ class Users extends React.Component {
             email: this.state.email
         };
         this.props.SavePost('http://localhost:3002/api/user', post);
+        this.setState({
+            name: '',
+            mobileNo: '',
+            email: ''
+        })
         toastService.successToast('Posted Successfully');
-        this.props.getAllPost();
+        this.props.getAllPost('http://localhost:3002/api/user');
     };
 
     deletePost = (id) => {
         if(window.confirm('Are you sure want to delete this post')){
-            this.props.DeletePost('http://localhost:3002/api/user' + id);
+            this.props.DeletePost('http://localhost:3002/api/user/' + id);
             toastService.successToast('Deleted Successfully');
-            this.props.getAllPost();
+            this.props.getAllPost('http://localhost:3002/api/user');
         } else
                 return false;
+    };
+
+    openModel = (id) => {
+        console.log('id.......', id);
     };
 
     render() {
@@ -96,7 +105,7 @@ class Users extends React.Component {
                                                 <Input type="text" name="name" id="title" onChange={this.onChange} value={name} placeholder="Enter a Name" />
                                             </FormGroup>
                                             <FormGroup>
-                                                <Label for="examplePassword">Mobile NO</Label>
+                                                <Label for="mobileNo">Mobile No</Label>
                                                 <Input type="text" name="mobileNo" id="data" onChange={this.onChange} value={mobileNo} placeholder="Enter a Mobile No" />
                                             </FormGroup>
                                             <FormGroup>
@@ -117,8 +126,8 @@ class Users extends React.Component {
                                         return (
                                             <Col sm="6" key={item._id}>
                                                 <Card body>
-                                                    <CardTitle>{item.Name}</CardTitle>
-                                                    <CardText>{item.mobileNo - item.email}</CardText>
+                                                    <CardTitle>{ item.name }<Button onClick={() => this.openModel(item._id)} style={{float: 'right'}} color="secondary">Edit</Button></CardTitle>
+                                                    <CardText>{ item.mobileNo  + '-' +  item.email  }</CardText>
                                                     <Button onClick={() => this.deletePost(item._id)} color={'danger'}>Delete Post</Button>
                                                 </Card>
                                             </Col>
@@ -136,7 +145,7 @@ class Users extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        posts: state.postState.posts
+        posts: state.postState.posts.data
     }
 };
 
