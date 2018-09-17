@@ -12,13 +12,14 @@ class Users extends React.Component {
 
         this.state = {
             activeTab: '1',
-            title: '',
-            data: ''
+            name: '',
+            mobileNo: '',
+            email: ''
         };
     }
 
     componentDidMount() {
-        this.props.getAllPost();
+        this.props.getAllPost('http://localhost:3002/api/user');
     }
 
     toggle = (tab) => {
@@ -39,17 +40,18 @@ class Users extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const post = {
-            title: this.state.title,
-            body: this.state.data
+            name: this.state.name,
+            mobileNo: this.state.mobileNo,
+            email: this.state.email
         };
-        this.props.SavePost(post);
+        this.props.SavePost('http://localhost:3002/api/user', post);
         toastService.successToast('Posted Successfully');
         this.props.getAllPost();
     };
 
     deletePost = (id) => {
         if(window.confirm('Are you sure want to delete this post')){
-            this.props.DeletePost('https://jsonplaceholder.typicode.com/posts/' + id);
+            this.props.DeletePost('http://localhost:3002/api/user' + id);
             toastService.successToast('Deleted Successfully');
             this.props.getAllPost();
         } else
@@ -57,7 +59,7 @@ class Users extends React.Component {
     };
 
     render() {
-        const { title, data } = this.state;
+        const { name, email, mobileNo } = this.state;
         const { posts = [] } = this.props;
         return (
             <React.Fragment>
@@ -90,12 +92,16 @@ class Users extends React.Component {
                                     <Card body>
                                         <Form onSubmit={this.onSubmit}>
                                             <FormGroup>
-                                                <Label for="exampleEmail">Title</Label>
-                                                <Input type="text" name="title" id="title" onChange={this.onChange} value={title} placeholder="Enter a Title" />
+                                                <Label for="exampleEmail">Name</Label>
+                                                <Input type="text" name="name" id="title" onChange={this.onChange} value={name} placeholder="Enter a Name" />
                                             </FormGroup>
                                             <FormGroup>
-                                                <Label for="examplePassword">Data</Label>
-                                                <Input type="text" name="data" id="data" onChange={this.onChange} value={data} placeholder="Enter a Data" />
+                                                <Label for="examplePassword">Mobile NO</Label>
+                                                <Input type="text" name="mobileNo" id="data" onChange={this.onChange} value={mobileNo} placeholder="Enter a Mobile No" />
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label for="examplePassword">Email</Label>
+                                                <Input type="text" name="email" id="data" onChange={this.onChange} value={email} placeholder="Enter a Email" />
                                             </FormGroup>
                                             <Input type={'submit'} value={'Save Post'}/>
                                         </Form>
@@ -109,11 +115,11 @@ class Users extends React.Component {
                                 {
                                     posts.map((item, i) => {
                                         return (
-                                            <Col sm="6" key={item.id}>
+                                            <Col sm="6" key={item._id}>
                                                 <Card body>
-                                                    <CardTitle>{item.title}</CardTitle>
-                                                    <CardText>{item.body}</CardText>
-                                                    <Button onClick={() => this.deletePost(item.id)} color={'danger'}>Delete Post</Button>
+                                                    <CardTitle>{item.Name}</CardTitle>
+                                                    <CardText>{item.mobileNo - item.email}</CardText>
+                                                    <Button onClick={() => this.deletePost(item._id)} color={'danger'}>Delete Post</Button>
                                                 </Card>
                                             </Col>
                                         )

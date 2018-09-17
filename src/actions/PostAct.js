@@ -1,8 +1,8 @@
 import { GET_ALL_POST, SAVE_POST, DELETE_POST } from '../actionsTypes/postAction';
 import dataService from '../services/dataService';
 
-export const getAllPost = () => (dispatch) => {
-    dataService.get('https://jsonplaceholder.typicode.com/posts')
+export const getAllPost = (url) => (dispatch) => {
+    dataService.get(url)
     .then(pay => dispatch({
         type: GET_ALL_POST,
         payload: pay,
@@ -12,8 +12,8 @@ export const getAllPost = () => (dispatch) => {
     }))
 };
 
-export const SavePost = (data) => (dispatch) => {
-    dataService.post('https://jsonplaceholder.typicode.com/posts', data)
+export const SavePost = (url, data) => (dispatch) => {
+    dataService.post(url, data)
         .then(pay => dispatch({
             type: SAVE_POST
         }))
